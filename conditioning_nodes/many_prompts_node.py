@@ -93,6 +93,7 @@ class ManyPromptsNode(AiNode):
 			prompt = self.prompts[self.iteration_step]
 			self.test = prompt
 			print(prompt)
+			print('test')
 			#result = [self.get_conditioning(prompt=prompt)]
 			result = 'test'
 			self.iteration_step += 1
