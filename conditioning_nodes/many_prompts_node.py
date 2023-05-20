@@ -52,6 +52,7 @@ class ManyPromptsNode(AiNode):
 		self.iteration_step = 0
 		self.done = False
 		self.prompts = []
+		self.stop_top_iterator = False
 
 	def get_conditioning(self, prompt="", progress_callback=None):
 
@@ -68,6 +69,16 @@ class ManyPromptsNode(AiNode):
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
 		self.busy = True
+		data = None
+
+
+		if len(self.getInputs(0)) > 0:
+			data_node, index = self.getInput(0)
+			data = data_node.getOutput(index)
+
+		if 'loop_done' in data:
+			if data['loop_done'] == True:
+				self.stop_top_iterator = True
 
 
 		if self.iteration_lenght == 0:
@@ -80,6 +91,7 @@ class ManyPromptsNode(AiNode):
 		self.iteration_step += 1
 		if self.iteration_step > self.iteration_lenght:
 			self.done = True
+			data['loop_done'] = True
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
 		this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
@@ -94,7 +106,8 @@ class ManyPromptsNode(AiNode):
 		super().onWorkerFinished(None)
 		self.setOutput(index=1, value=[result])
 		if self.done:
-			self.iteration_step = 0
-			self.executeChild(0)
+			if not self.stop_top_iterator:
+				self.iteration_step = 0
+				self.executeChild(0)
 		else:
 			self.executeChild(2)
