@@ -33,9 +33,9 @@ class ManyPromptsNode(AiNode):
 	op_title = "Many Prompts Node"
 	content_label_objname = "many_prompts_node"
 	category = "Data"
-	custom_input_socket_name = ["DOG", "CAT", "42"]
+	#custom_input_socket_name = ["DOG", "CAT", "42"]
 	def __init__(self, scene):
-		super().__init__(scene, inputs=[3,2,1], outputs=[6,5,4,3,2,1])
+		super().__init__(scene, inputs=[6,1], outputs=[3,1])
 
 	def initInnerClasses(self):
 		self.content = ManyPromptsWidget(self)
