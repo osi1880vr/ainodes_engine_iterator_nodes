@@ -94,6 +94,7 @@ class ManyPromptsNode(AiNode):
 		super().onWorkerFinished(None)
 		self.setOutput(index=1, value=[result])
 		if self.done:
+			self.iteration_step = 0
 			self.executeChild(0)
 		else:
 			self.executeChild(2)
