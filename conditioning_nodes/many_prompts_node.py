@@ -23,8 +23,7 @@ class ManyPromptsWidget(QDMNodeContentWidget):
 		self.create_main_layout()
 
 	def create_widgets(self):
-		self.checkbox = self.create_check_box("Example")
-		self.line_edit = self.create_line_edit("Example")
+		self.prompt = self.create_text_edit("Prompt")
 
 
 @register_node(OP_NODE_MANY_PROMPTS)
