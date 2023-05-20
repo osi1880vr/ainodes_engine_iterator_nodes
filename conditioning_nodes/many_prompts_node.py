@@ -94,6 +94,6 @@ class ManyPromptsNode(AiNode):
 		super().onWorkerFinished(None)
 		self.setOutput(index=1, value=[result])
 		if self.done:
-			self.executeChild(2)
+			self.executeChild(0)
 		else:
-			self.executeChild(1)
+			self.executeChild(2)
