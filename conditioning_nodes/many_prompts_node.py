@@ -51,6 +51,7 @@ class ManyPromptsNode(AiNode):
 		self.iteration_lenght = 0
 		self.iteration_step = 0
 		self.done = False
+		self.all_done = False
 		self.prompts = []
 		self.stop_top_iterator = False
 
@@ -117,6 +118,8 @@ class ManyPromptsNode(AiNode):
 			if not self.stop_top_iterator:
 				self.executeChild(0) # get the next step from the maybe top iterator if there is any
 			else:
-				self.executeChild(2) # make the very last step happen
+				if not self.all_done:
+					self.all_done = True
+					self.executeChild(2) # make the very last step happen
 		else:
 			self.executeChild(2)
