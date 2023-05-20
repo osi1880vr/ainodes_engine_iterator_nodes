@@ -87,7 +87,8 @@ class ManyPromptsNode(AiNode):
 
 		prompt = self.prompts[self.iteration_step]
 		print(prompt)
-		result = [self.get_conditioning(prompt=prompt)]
+		#result = [self.get_conditioning(prompt=prompt)]
+		result = 'test'
 		self.iteration_step += 1
 		if self.iteration_step > self.iteration_lenght:
 			self.done = True
