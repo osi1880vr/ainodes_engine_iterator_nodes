@@ -14,10 +14,10 @@ Also change the names of the Widget and Node classes, as well as it's content_la
 it will be used when saving the graphs.
 """
 
-OP_NODE_EXAMPLE = get_next_opcode()
+OP_NODE_MANY_PROMPTS = get_next_opcode()
 
 
-class ExampleWidget(QDMNodeContentWidget):
+class ManyPromptsWidget(QDMNodeContentWidget):
 	def initUI(self):
 		self.create_widgets()
 		self.create_main_layout()
@@ -27,19 +27,19 @@ class ExampleWidget(QDMNodeContentWidget):
 		self.line_edit = self.create_line_edit("Example")
 
 
-@register_node(OP_NODE_EXAMPLE)
+@register_node(OP_NODE_MANY_PROMPTS)
 class TorchLoaderNode(AiNode):
 	icon = "ainodes_frontend/icons/base_nodes/in.png"
-	op_code = OP_NODE_EXAMPLE
-	op_title = "Example Node"
-	content_label_objname = "example_node"
+	op_code = OP_NODE_MANY_PROMPTS
+	op_title = "Many Prompts Node"
+	content_label_objname = "many_prompts_node"
 	category = "Data"
 	custom_input_socket_name = ["DOG", "CAT", "42"]
 	def __init__(self, scene):
 		super().__init__(scene, inputs=[6,5,4,3,2,1], outputs=[6,5,4,3,2,1])
 
 	def initInnerClasses(self):
-		self.content = ExampleWidget(self)
+		self.content = ManyPromptsWidget(self)
 		self.grNode = CalcGraphicsNode(self)
 		self.grNode.width = 340
 		self.grNode.height = 500
