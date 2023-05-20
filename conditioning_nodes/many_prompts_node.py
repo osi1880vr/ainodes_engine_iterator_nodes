@@ -72,8 +72,8 @@ class ManyPromptsNode(AiNode):
 		data = None
 
 
-		if len(self.getInputs(0)) > 0:
-			data_node, index = self.getInput(0)
+		if len(self.getInputs(2)) > 0:
+			data_node, index = self.getInput(2)
 			data = data_node.getOutput(index)
 
 		if data and 'loop_done' in data:
