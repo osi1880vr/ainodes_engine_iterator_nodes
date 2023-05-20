@@ -85,9 +85,7 @@ class ManyPromptsNode(AiNode):
 			else:
 				self.stop_top_iterator = True # if none make sure we dont trigger done
 
-			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
-				if data['loop_done'] == True:
-					self.stop_top_iterator = True
+
 
 			# here the internal magic starts with finding out how many steps the loop will have
 			if self.iteration_lenght == 0:
@@ -96,14 +94,22 @@ class ManyPromptsNode(AiNode):
 
 			prompt = self.prompts[self.iteration_step]
 			self.test = prompt
+
+			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
+				if data['loop_done'] == True:
+					self.stop_top_iterator = True
+					print('loop_done ', self.test)
+
+
 			#result = [self.get_conditioning(prompt=prompt)]
 			result = 'test'
 			self.iteration_step += 1
 			if self.iteration_step > self.iteration_lenght:
 				self.done = True
-				if not data:
-					data = {}
-				data['loop_done'] = True
+				if self.stop_top_iterator is True:
+					if not data:
+						data = {}
+					data['loop_done'] = True
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
 		this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
@@ -118,26 +124,34 @@ class ManyPromptsNode(AiNode):
 		super().onWorkerFinished(None)
 		self.setOutput(1, result[1])
 		self.getInput(0)
+
+		#print('self.stop_top_iterator',self.stop_top_iterator , ' ', self.test)
+		#print('self.done',self.done , ' ', self.test)
+		#print('self.iteration_step',self.iteration_step , ' ', self.test)
+		#print('self.all_done',self.all_done , ' ', self.test)
+
+
 		if self.done: # if this loop is finished we may have to restart if we are in a larger stacked loop
 
 			if not self.stop_top_iterator: # if the top loop is not yet done we trigger him
 
 				if self.iteration_step > 0: # this is the last step of this iteration, we still have to trigger the rest of the process
 					self.iteration_step = -1 # but for when we come back for this we know we have to trigger top loop to get a new value from there
-					print(self.test)
+					print('trigger execute last step of iteration ', self.test)
 					self.executeChild(2)
 				else:
 					self.done = False     # we are back from the last step process now we trigger top loop
 					self.iteration_step = 0
+					print('trigger done ', self.test)
 					self.executeChild(0)
 
-			 # get the next step from the maybe top iterator if there is any
+			# get the next step from the maybe top iterator if there is any
 			else:
 				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
-					print(self.test)
+					print('all done here ', self.test)
 					self.executeChild(2) # make the very last step happen
 		else:
 			if not self.all_done:
-				print(self.test)
+				print('next ', self.test)
 				self.executeChild(2)
