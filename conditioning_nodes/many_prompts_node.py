@@ -33,7 +33,7 @@ class ManyPromptsNode(AiNode):
 	op_title = "Many Prompts Node"
 	content_label_objname = "many_prompts_node"
 	category = "Data"
-	custom_input_socket_name = ['DONE','DONE', "DATA", "EXEC"]
+	custom_input_socket_name = ['DONE','LOOP', "DATA", "EXEC"]
 
 	custom_output_socket_name = ['DONE', "DATA", "EXEC"]
 
