@@ -74,22 +74,24 @@ class ManyPromptsNode(AiNode):
 		result = None
 
 		if not self.all_done:
-			if len(self.getInputs(2)) > 0:
+			# care for the loops to work as such, no node fucntionality yet
+			if len(self.getInputs(2)) > 0: # get data from a maybe top loop
 				data_node, index = self.getInput(2)
 				data = data_node.getOutput(index)
 			else:
-				self.stop_top_iterator = True
+				self.stop_top_iterator = True # if none make sure we dont trigger done
 
-			if data and 'loop_done' in data:
+			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
 					self.stop_top_iterator = True
 
-
+			# here the internal magic starts with finding out how many steps the loop will have
 			if self.iteration_lenght == 0:
 				self.prompts = self.content.prompt.toPlainText().split('\n')
 				self.iteration_lenght = len(self.prompts) - 1
 
 			prompt = self.prompts[self.iteration_step]
+			self.test = prompt
 			print(prompt)
 			#result = [self.get_conditioning(prompt=prompt)]
 			result = 'test'
@@ -113,15 +115,17 @@ class ManyPromptsNode(AiNode):
 		super().onWorkerFinished(None)
 		self.setOutput(1, result[1])
 		self.getInput(0)
-		if self.done:
+		if self.done: # if this loop is finished we may have to restart if we are in a larger stacked loop
 			self.done = False
 			self.iteration_step = 0
-			if not self.stop_top_iterator:
+			if not self.stop_top_iterator: # if the top loop is not yet donw we trigger him
 				self.executeChild(0) # get the next step from the maybe top iterator if there is any
 			else:
-				if not self.all_done:
+				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
+					print(self.test)
 					self.executeChild(2) # make the very last step happen
 		else:
 			if not self.all_done:
+				print(self.test)
 				self.executeChild(2)
