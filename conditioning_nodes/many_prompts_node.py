@@ -37,7 +37,7 @@ class ManyPromptsNode(AiNode):
 	custom_output_socket_name = ['DONE', "DATA", "EXEC"]
 
 	def __init__(self, scene):
-		super().__init__(scene, inputs=[6,1], outputs=[3,2,1])
+		super().__init__(scene, inputs=[6,1], outputs=[1,2,1])
 
 	def initInnerClasses(self):
 		self.content = ManyPromptsWidget(self)
@@ -47,11 +47,38 @@ class ManyPromptsNode(AiNode):
 		self.content.setMinimumWidth(340)
 		self.content.setMinimumHeight(500)
 		self.content.eval_signal.connect(self.evalImplementation)
+		self.iteration_lenght = 0
+		self.iteration_step = 0
+		self.done = False
 
+	def get_conditioning(self, prompt="", progress_callback=None):
+
+		"""if gs.loaded_models["loaded"] == []:
+			for node in self.scene.nodes:
+				if isinstance(node, TorchLoaderNode):
+					node.evalImplementation()
+					#print("Node found")"""
+
+
+		c = gs.models["clip"].encode(prompt)
+		uc = {}
+		return [[c, uc]]
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
 		self.busy = True
+
+		if self.iteration_lenght == 0:
+			prompts = self.content.prompt.toPlainText().split('\n')
+			self.iteration_lenght = len(prompts) - 1
+
+		prompt = prompts[self.iteration_step]
+
+
+		result = [self.get_conditioning(prompt=prompt)]
+		self.iteration_step += 1
+		if self.iteration_step > self.iteration_lenght:
+			self.done = True
 
 		value = None
 
