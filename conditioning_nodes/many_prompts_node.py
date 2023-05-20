@@ -109,6 +109,7 @@ class ManyPromptsNode(AiNode):
 		self.setOutput(1, result[1])
 		self.getInput(0)
 		if self.done:
+			self.done = False
 			self.iteration_step = 0
 			if not self.stop_top_iterator:
 				self.executeChild(0)
