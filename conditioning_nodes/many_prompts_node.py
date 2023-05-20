@@ -122,4 +122,5 @@ class ManyPromptsNode(AiNode):
 					self.all_done = True
 					self.executeChild(2) # make the very last step happen
 		else:
-			self.executeChild(2)
+			if not self.all_done:
+				self.executeChild(2)
