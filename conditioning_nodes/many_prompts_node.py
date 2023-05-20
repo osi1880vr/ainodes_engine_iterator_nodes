@@ -71,6 +71,7 @@ class ManyPromptsNode(AiNode):
 	def evalImplementation_thread(self):
 		self.busy = True
 		data = None
+		result = None
 
 		if not self.all_done:
 			if len(self.getInputs(2)) > 0:
