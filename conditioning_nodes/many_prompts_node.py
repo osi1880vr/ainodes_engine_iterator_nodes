@@ -35,6 +35,7 @@ class ManyPromptsNode(AiNode):
 	category = "Data"
 	#custom_input_socket_name = ["DOG", "CAT", "42"]
 	custom_output_socket_name = ['DONE']
+
 	def __init__(self, scene):
 		super().__init__(scene, inputs=[6,1], outputs=[3,1])
 
@@ -46,6 +47,7 @@ class ManyPromptsNode(AiNode):
 		self.content.setMinimumWidth(340)
 		self.content.setMinimumHeight(500)
 		self.content.eval_signal.connect(self.evalImplementation)
+		self.output_socket_name = ["EXEC", "COND"]
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
