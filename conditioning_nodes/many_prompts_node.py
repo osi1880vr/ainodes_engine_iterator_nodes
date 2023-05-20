@@ -76,7 +76,7 @@ class ManyPromptsNode(AiNode):
 			data_node, index = self.getInput(0)
 			data = data_node.getOutput(index)
 
-		if 'loop_done' in data:
+		if data and 'loop_done' in data:
 			if data['loop_done'] == True:
 				self.stop_top_iterator = True
 
