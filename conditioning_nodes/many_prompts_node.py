@@ -28,7 +28,7 @@ class ManyPromptsWidget(QDMNodeContentWidget):
 
 
 @register_node(OP_NODE_MANY_PROMPTS)
-class TorchLoaderNode(AiNode):
+class ManyPromptsNode(AiNode):
 	icon = "ainodes_frontend/icons/base_nodes/in.png"
 	op_code = OP_NODE_MANY_PROMPTS
 	op_title = "Many Prompts Node"
