@@ -91,6 +91,8 @@ class ManyPromptsNode(AiNode):
 		self.iteration_step += 1
 		if self.iteration_step > self.iteration_lenght:
 			self.done = True
+			if not data:
+				data = {}
 			data['loop_done'] = True
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
