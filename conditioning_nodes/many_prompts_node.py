@@ -75,6 +75,8 @@ class ManyPromptsNode(AiNode):
 		if len(self.getInputs(2)) > 0:
 			data_node, index = self.getInput(2)
 			data = data_node.getOutput(index)
+		else:
+			self.stop_top_iterator = True
 
 		if data and 'loop_done' in data:
 			if data['loop_done'] == True:
@@ -113,6 +115,8 @@ class ManyPromptsNode(AiNode):
 			self.done = False
 			self.iteration_step = 0
 			if not self.stop_top_iterator:
-				self.executeChild(0)
+				self.executeChild(0) # get the next step from the maybe top iterator if there is any
+			else:
+				self.executeChild(2) # make the very last step happen
 		else:
 			self.executeChild(2)
