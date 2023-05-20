@@ -72,32 +72,32 @@ class ManyPromptsNode(AiNode):
 		self.busy = True
 		data = None
 
-
-		if len(self.getInputs(2)) > 0:
-			data_node, index = self.getInput(2)
-			data = data_node.getOutput(index)
-		else:
-			self.stop_top_iterator = True
-
-		if data and 'loop_done' in data:
-			if data['loop_done'] == True:
+		if not self.all_done:
+			if len(self.getInputs(2)) > 0:
+				data_node, index = self.getInput(2)
+				data = data_node.getOutput(index)
+			else:
 				self.stop_top_iterator = True
 
+			if data and 'loop_done' in data:
+				if data['loop_done'] == True:
+					self.stop_top_iterator = True
 
-		if self.iteration_lenght == 0:
-			self.prompts = self.content.prompt.toPlainText().split('\n')
-			self.iteration_lenght = len(self.prompts) - 1
 
-		prompt = self.prompts[self.iteration_step]
-		print(prompt)
-		#result = [self.get_conditioning(prompt=prompt)]
-		result = 'test'
-		self.iteration_step += 1
-		if self.iteration_step > self.iteration_lenght:
-			self.done = True
-			if not data:
-				data = {}
-			data['loop_done'] = True
+			if self.iteration_lenght == 0:
+				self.prompts = self.content.prompt.toPlainText().split('\n')
+				self.iteration_lenght = len(self.prompts) - 1
+
+			prompt = self.prompts[self.iteration_step]
+			print(prompt)
+			#result = [self.get_conditioning(prompt=prompt)]
+			result = 'test'
+			self.iteration_step += 1
+			if self.iteration_step > self.iteration_lenght:
+				self.done = True
+				if not data:
+					data = {}
+				data['loop_done'] = True
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
 		this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
