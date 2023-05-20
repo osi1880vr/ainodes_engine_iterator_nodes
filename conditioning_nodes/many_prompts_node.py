@@ -33,11 +33,11 @@ class ManyPromptsNode(AiNode):
 	op_title = "Many Prompts Node"
 	content_label_objname = "many_prompts_node"
 	category = "Data"
-	#custom_input_socket_name = ["DOG", "CAT", "42"]
+	# custom_input_socket_name = ["DOG", "CAT", "42"]
 	custom_output_socket_name = ['DONE', "DATA", "EXEC"]
 
 	def __init__(self, scene):
-		super().__init__(scene, inputs=[6,1], outputs=[1,2,1])
+		super().__init__(scene, inputs=[6, 1], outputs=[1, 3, 1])
 
 	def initInnerClasses(self):
 		self.content = ManyPromptsWidget(self)
@@ -50,6 +50,7 @@ class ManyPromptsNode(AiNode):
 		self.iteration_lenght = 0
 		self.iteration_step = 0
 		self.done = False
+		self.prompts = []
 
 	def get_conditioning(self, prompt="", progress_callback=None):
 
@@ -59,7 +60,6 @@ class ManyPromptsNode(AiNode):
 					node.evalImplementation()
 					#print("Node found")"""
 
-
 		c = gs.models["clip"].encode(prompt)
 		uc = {}
 		return [[c, uc]]
@@ -68,32 +68,31 @@ class ManyPromptsNode(AiNode):
 	def evalImplementation_thread(self):
 		self.busy = True
 
+
 		if self.iteration_lenght == 0:
-			prompts = self.content.prompt.toPlainText().split('\n')
-			self.iteration_lenght = len(prompts) - 1
+			self.prompts = self.content.prompt.toPlainText().split('\n')
+			self.iteration_lenght = len(self.prompts) - 1
 
-		prompt = prompts[self.iteration_step]
-
-
+		prompt = self.prompts[self.iteration_step]
+		print(prompt)
 		result = [self.get_conditioning(prompt=prompt)]
 		self.iteration_step += 1
 		if self.iteration_step > self.iteration_lenght:
 			self.done = True
-
-		value = None
-
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
 		this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
 		it's super call makes sure we clean up and safely return.
-		
+
 		Inputs and Outputs are listed from the bottom of the node.
 		"""
-
-		return value
+		return result
 
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
-		self.setOutput(index=0, value=result)
-		self.executeChild(0)
+		self.setOutput(index=1, value=[result])
+		if self.done:
+			self.executeChild(2)
+		else:
+			self.executeChild(1)
