@@ -74,6 +74,10 @@ class ManyPromptsNode(AiNode):
 		result = None
 
 		if not self.all_done:
+
+			if self.iteration_step == -1:
+				return result, data
+
 			# care for the loops to work as such, no node fucntionality yet
 			if len(self.getInputs(2)) > 0: # get data from a maybe top loop
 				data_node, index = self.getInput(2)
@@ -115,10 +119,19 @@ class ManyPromptsNode(AiNode):
 		self.setOutput(1, result[1])
 		self.getInput(0)
 		if self.done: # if this loop is finished we may have to restart if we are in a larger stacked loop
-			self.done = False
-			self.iteration_step = 0
-			if not self.stop_top_iterator: # if the top loop is not yet donw we trigger him
-				self.executeChild(0) # get the next step from the maybe top iterator if there is any
+
+			if not self.stop_top_iterator: # if the top loop is not yet done we trigger him
+
+				if self.iteration_step > 0: # this is the last step of this iteration, we still have to trigger the rest of the process
+					self.iteration_step = -1 # but for when we come back for this we know we have to trigger top loop to get a new value from there
+					print(self.test)
+					self.executeChild(2)
+				else:
+					self.done = False     # we are back from the last step process now we trigger top loop
+					self.iteration_step = 0
+					self.executeChild(0)
+
+			 # get the next step from the maybe top iterator if there is any
 			else:
 				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
