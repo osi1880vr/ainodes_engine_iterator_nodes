@@ -99,12 +99,13 @@ class ManyPromptsNode(AiNode):
 
 		Inputs and Outputs are listed from the bottom of the node.
 		"""
-		return result
+		return result, data
 
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
-		self.setOutput(index=1, value=[result])
+		self.setOutput(1, result[1])
+		self.getInput(0)
 		if self.done:
 			if not self.stop_top_iterator:
 				self.iteration_step = 0
