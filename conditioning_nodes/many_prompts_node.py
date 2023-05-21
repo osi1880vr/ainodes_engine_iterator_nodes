@@ -67,15 +67,12 @@ class ManyPromptsNode(AiNode):
 		uc = {}
 		return [[c, uc]]
 
-	def calc_next_step(self, data):
-
+	def calc_next_step(self):
+		self.iteration_step += 1
 		if self.iteration_step > self.iteration_lenght:
 			self.done = True
-			if self.stop_top_iterator is True:
-				if not data:
-					data = {}
-				data['loop_done'] = True
-		self.iteration_step += 1
+
+
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
@@ -112,7 +109,7 @@ class ManyPromptsNode(AiNode):
 
 			#result = [self.get_conditioning(prompt=prompt)]
 			result = 'test'
-			self.calc_next_step(data)
+			self.calc_next_step()
 
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
@@ -121,6 +118,8 @@ class ManyPromptsNode(AiNode):
 
 		Inputs and Outputs are listed from the bottom of the node.
 		"""
+		if not data:
+			data = {}
 		return result, data
 
 	@QtCore.Slot(object)
@@ -150,7 +149,8 @@ class ManyPromptsNode(AiNode):
 				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
 					print(self.test)
-
+					if self.stop_top_iterator is True:
+						result[1]['loop_done'] = True
 					self.executeChild(2) # make the very last step happen
 		else:
 			if not self.all_done:
