@@ -7,6 +7,7 @@ from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
 from ainodes_frontend.node_engine.utils import dumpException
 from ainodes_frontend import singleton as gs
+from pydispatch import dispatcher
 
 """
 Always change the name of this variable when creating a new Node
@@ -32,7 +33,7 @@ class ManyPromptsNode(AiNode):
 	op_code = OP_NODE_MANY_PROMPTS
 	op_title = "Many Prompts Node"
 	content_label_objname = "many_prompts_node"
-	category = "Data"
+	category = "Iterators"
 	custom_input_socket_name = ['DONE','LOOP', "DATA", "EXEC"]
 
 	custom_output_socket_name = ['DONE', "DATA", "EXEC"]
@@ -48,12 +49,21 @@ class ManyPromptsNode(AiNode):
 		self.content.setMinimumWidth(340)
 		self.content.setMinimumHeight(500)
 		self.content.eval_signal.connect(self.evalImplementation)
+		self.reset_handler('init')
+		self.reset = False
+		self.reset_signal = dispatcher.Signal()
+		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
+
+
+	def reset_handler(self, sender):
+		self.reset = True
 		self.iteration_lenght = 0
 		self.iteration_step = 0
 		self.done = False
 		self.all_done = False
 		self.prompts = []
 		self.stop_top_iterator = False
+		self.reset = False
 
 	def get_conditioning(self, prompt="", progress_callback=None):
 
@@ -76,6 +86,8 @@ class ManyPromptsNode(AiNode):
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
+		while self.reset:
+			pass
 		self.busy = True
 		data = None
 		result = None
