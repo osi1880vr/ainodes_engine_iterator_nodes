@@ -98,7 +98,6 @@ class ManyPromptsNode(AiNode):
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
 					self.stop_top_iterator = True
-					print('loop_done ', self.test)
 
 
 			#result = [self.get_conditioning(prompt=prompt)]
@@ -125,10 +124,6 @@ class ManyPromptsNode(AiNode):
 		self.setOutput(1, result[1])
 		self.getInput(0)
 
-		#print('self.stop_top_iterator',self.stop_top_iterator , ' ', self.test)
-		#print('self.done',self.done , ' ', self.test)
-		#print('self.iteration_step',self.iteration_step , ' ', self.test)
-		#print('self.all_done',self.all_done , ' ', self.test)
 
 
 		if self.done: # if this loop is finished we may have to restart if we are in a larger stacked loop
@@ -137,21 +132,20 @@ class ManyPromptsNode(AiNode):
 
 				if self.iteration_step > 0: # this is the last step of this iteration, we still have to trigger the rest of the process
 					self.iteration_step = -1 # but for when we come back for this we know we have to trigger top loop to get a new value from there
-					print('trigger execute last step of iteration ', self.test)
+					print(self.test)
 					self.executeChild(2)
 				else:
 					self.done = False     # we are back from the last step process now we trigger top loop
 					self.iteration_step = 0
-					print('trigger done ', self.test)
 					self.executeChild(0)
 
 			# get the next step from the maybe top iterator if there is any
 			else:
 				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
-					print('all done here ', self.test)
+					print(self.test)
 					self.executeChild(2) # make the very last step happen
 		else:
 			if not self.all_done:
-				print('next ', self.test)
+				print(self.test)
 				self.executeChild(2)
