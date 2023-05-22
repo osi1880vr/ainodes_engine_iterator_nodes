@@ -48,7 +48,7 @@ class ManyPromptsNode(AiNode):
 		self.grNode.width = 340
 		self.grNode.height = 500
 		self.content.setMinimumWidth(340)
-		self.content.setMinimumHeight(500)
+		self.content.setMinimumHeight(300)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.reset_handler('init')
 		self.reset = False

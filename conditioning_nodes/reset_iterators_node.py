@@ -42,9 +42,9 @@ class ResetIteratorsNode(AiNode):
 		self.content = ResetIteratorsWidget(self)
 		self.grNode = CalcGraphicsNode(self)
 		self.grNode.width = 240
-		self.grNode.height = 150
+		self.grNode.height = 100
 		self.content.setMinimumWidth(240)
-		self.content.setMinimumHeight(150)
+		self.content.setMinimumHeight(100)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.reset_signal = 'reset_iterator'
 
