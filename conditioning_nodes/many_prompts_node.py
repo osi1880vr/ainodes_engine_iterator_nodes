@@ -1,6 +1,6 @@
 import os
 
-from PySide6.QtCore import Signal
+from qtpy.QtCore import Signal
 from qtpy import QtCore
 from qtpy import QtWidgets
 
