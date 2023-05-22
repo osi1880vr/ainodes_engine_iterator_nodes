@@ -118,6 +118,7 @@ class ManyStepssNode(AiNode):
 
 
 			data['steps'] = steps
+			data['last_step'] = steps
 
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
