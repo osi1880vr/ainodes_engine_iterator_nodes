@@ -49,7 +49,7 @@ class LoopIteratorsNode(AiNode):
 
 	@QtCore.Slot()
 	def set_checked(self):
-		self.content.checkbox.setChecked = True
+		self.content.checkbox.setChecked(True)
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
