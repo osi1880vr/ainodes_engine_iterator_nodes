@@ -59,9 +59,6 @@ class LoopIteratorsNode(AiNode):
 		if data is not None:
 			prompt_counts = []
 			for key, value in data.items():
-
-				print(key)
-
 				if "iterator" in key:
 					prompt_counts.append(data[key])
 
@@ -69,7 +66,6 @@ class LoopIteratorsNode(AiNode):
 			for item in prompt_counts:
 				result *= item
 
-		print(self.counter, result)
 		return result
 
 
