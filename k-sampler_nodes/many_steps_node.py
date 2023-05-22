@@ -17,26 +17,26 @@ Also change the names of the Widget and Node classes, as well as it's content_la
 it will be used when saving the graphs.
 """
 
-OP_NODE_MANY_PROMPTS = get_next_opcode()
+OP_NODE_MANY_STEPS = get_next_opcode()
 
 
-class ManyPromptsWidget(QDMNodeContentWidget):
+class ManyStepsWidget(QDMNodeContentWidget):
 	show_iteration_signal = QtCore.Signal(str)
 	def initUI(self):
 		self.create_widgets()
 		self.create_main_layout()
 
 	def create_widgets(self):
-		self.prompt = self.create_text_edit("Prompt")
+		self.steps = self.create_text_edit("Steps")
 		self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
-@register_node(OP_NODE_MANY_PROMPTS)
-class ManyPromptsNode(AiNode):
+@register_node(OP_NODE_MANY_STEPS)
+class ManyStepssNode(AiNode):
 	icon = "ainodes_frontend/icons/base_nodes/in.png"
-	op_code = OP_NODE_MANY_PROMPTS
-	op_title = "Many Prompts Node"
-	content_label_objname = "many_prompts_node"
+	op_code = OP_NODE_MANY_STEPS
+	op_title = "Many Steps Node"
+	content_label_objname = "many_steps_node"
 	category = "Iterators"
 	custom_input_socket_name = ['DONE','LOOP', "DATA", "EXEC"]
 
@@ -46,7 +46,7 @@ class ManyPromptsNode(AiNode):
 		super().__init__(scene, inputs=[1, 1, 6, 1], outputs=[1, 6, 1])
 
 	def initInnerClasses(self):
-		self.content = ManyPromptsWidget(self)
+		self.content = ManyStepsWidget(self)
 		self.grNode = CalcGraphicsNode(self)
 		self.grNode.width = 340
 		self.grNode.height = 400
@@ -74,6 +74,7 @@ class ManyPromptsNode(AiNode):
 	@QtCore.Slot(str)
 	def set_actual_value(self, value):
 		self.content.actual_iteration_value.setText(value)
+
 
 	def calc_next_step(self):
 		self.iteration_step += 1
@@ -109,17 +110,14 @@ class ManyPromptsNode(AiNode):
 
 			# here the internal magic starts with finding out how many steps the loop will have
 			if self.iteration_lenght == 0:
-				self.prompts = self.content.prompt.toPlainText().split('\n')
-				self.iteration_lenght = len(self.prompts) - 1
+				self.steps = self.content.steps.toPlainText().split('\n')
+				self.iteration_lenght = len(self.steps) - 1
 
-			prompt = self.prompts[self.iteration_step]
-			self.content.show_iteration_signal.emit(prompt)
+			steps = self.steps[self.iteration_step]
+			self.content.show_iteration_signal.emit(steps)
 
 
-			if 'prompt' in data:
-				data['prompt'] = f"{data['prompt']} {prompt}"
-			else:
-				data['prompt'] = prompt
+			data['steps'] = steps
 
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
@@ -138,7 +136,7 @@ class ManyPromptsNode(AiNode):
 
 		if data is not None:
 		#Before we return the data, we make sure, the current prompt count is in it with the node's unique id
-			data[f"iterator_{self.getID(0)}"] = len(self.prompts)
+			data[f"iterator_{self.getID(0)}"] = len(self.steps)
 
 		return result, data
 
