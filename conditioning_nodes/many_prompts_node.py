@@ -151,6 +151,10 @@ class ManyPromptsNode(AiNode):
 		Inputs and Outputs are listed from the bottom of the node.
 		"""
 
+		if data is not None:
+		#Before we return the data, we make sure, the current prompt count is in it with the node's unique id
+			data[f"iterator_{self.getID(0)}"] = len(self.prompts)
+
 		return result, data
 
 	@QtCore.Slot(object)
