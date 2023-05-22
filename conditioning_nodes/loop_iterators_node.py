@@ -15,6 +15,7 @@ OP_NODE_LOOP_ITERATORS = get_next_opcode()
 
 class LoopIteratorsWidget(QDMNodeContentWidget):
 	def initUI(self):
+		self.create_widgets()
 		self.create_main_layout()
 
 	def create_widgets(self):
