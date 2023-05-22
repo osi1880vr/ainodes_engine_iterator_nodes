@@ -2,6 +2,7 @@ from qtpy import QtCore
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
+from ainodes_frontend import singleton as gs
 
 """
 Always change the name of this variable when creating a new Node
@@ -16,6 +17,8 @@ class LoopIteratorsWidget(QDMNodeContentWidget):
 	def initUI(self):
 		self.create_main_layout()
 
+	def create_widgets(self):
+		self.checkbox = self.create_checkbox("Title")
 
 @register_node(OP_NODE_LOOP_ITERATORS)
 class LoopIteratorsNode(AiNode):
@@ -28,7 +31,7 @@ class LoopIteratorsNode(AiNode):
 
 	def __init__(self, scene):
 		super().__init__(scene, inputs=[6, 1], outputs=[1,1])
-		self.checkbox = self.create_checkbox("Keep looping")
+
 
 	def initInnerClasses(self):
 		self.content = LoopIteratorsWidget(self)
@@ -39,7 +42,7 @@ class LoopIteratorsNode(AiNode):
 		self.content.setMinimumHeight(100)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.counter = 0
-		self.checkbox.setChecked = True
+		self.content.checkbox.setChecked = True
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
@@ -66,7 +69,7 @@ class LoopIteratorsNode(AiNode):
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
-		if self.checkbox.isChecked:
+		if self.content.checkbox.isChecked:
 			self.counter += 1
 			if result is not None:
 				if self.counter > result - 2:
@@ -76,3 +79,5 @@ class LoopIteratorsNode(AiNode):
 					self.executeChild(1)
 			else:
 				self.executeChild(1)
+		else:
+			gs.should_run = None
