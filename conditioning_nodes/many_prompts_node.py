@@ -125,7 +125,7 @@ class ManyPromptsNode(AiNode):
 				self.iteration_lenght = len(self.prompts) - 1
 
 			prompt = self.prompts[self.iteration_step]
-			self.prompt_show_signal.emit(prompt)
+			self.content.prompt_show_signal.emit(prompt)
 
 
 			if 'prompt' in data:
