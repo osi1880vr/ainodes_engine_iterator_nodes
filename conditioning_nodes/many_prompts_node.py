@@ -25,6 +25,7 @@ class ManyPromptsWidget(QDMNodeContentWidget):
 
 	def create_widgets(self):
 		self.prompt = self.create_text_edit("Prompt")
+		self.actual_prompt = self.create_line_edit("Actual Prompt")
 
 
 @register_node(OP_NODE_MANY_PROMPTS)
@@ -104,25 +105,33 @@ class ManyPromptsNode(AiNode):
 			else:
 				self.stop_top_iterator = True # if none make sure we dont trigger done
 
+		if not data:
+			data = {}
 
 
-			# here the internal magic starts with finding out how many steps the loop will have
-			if self.iteration_lenght == 0:
-				self.prompts = self.content.prompt.toPlainText().split('\n')
-				self.iteration_lenght = len(self.prompts) - 1
+		# here the internal magic starts with finding out how many steps the loop will have
+		if self.iteration_lenght == 0:
+			self.prompts = self.content.prompt.toPlainText().split('\n')
+			self.iteration_lenght = len(self.prompts) - 1
 
-			prompt = self.prompts[self.iteration_step]
-			self.test = prompt
+		prompt = self.prompts[self.iteration_step]
+		self.content.actual_prompt.setText(prompt)
 
-			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
-				if data['loop_done'] == True:
-					self.stop_top_iterator = True
-					data['loop_done'] = False
+		if 'prompt' in data:
+			data['prompt'] = f"{data['prompt']} {prompt}"
+		else:
+			data['prompt'] = prompt
 
 
-			#result = [self.get_conditioning(prompt=prompt)]
-			result = 'test'
-			self.calc_next_step()
+		if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
+			if data['loop_done'] == True:
+				self.stop_top_iterator = True
+				data['loop_done'] = False
+
+
+		#result = [self.get_conditioning(prompt=prompt)]
+		result = 'test'
+		self.calc_next_step()
 
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
@@ -131,8 +140,7 @@ class ManyPromptsNode(AiNode):
 
 		Inputs and Outputs are listed from the bottom of the node.
 		"""
-		if not data:
-			data = {}
+
 		return result, data
 
 	@QtCore.Slot(object)
@@ -149,8 +157,7 @@ class ManyPromptsNode(AiNode):
 
 				if self.iteration_step > 0: # this is the last step of this iteration, we still have to trigger the rest of the process
 					self.iteration_step = -1 # but for when we come back for this we know we have to trigger top loop to get a new value from there
-					print(self.test)
-
+					print(result[1]['prompt'])
 					self.executeChild(2)
 				else:
 					self.done = False     # we are back from the last step process now we trigger top loop
@@ -161,12 +168,11 @@ class ManyPromptsNode(AiNode):
 			else:
 				if not self.all_done:  # if we self are not done we trigger the next
 					self.all_done = True
-					print(self.test)
+					print(result[1]['prompt'])
 					if self.stop_top_iterator is True:
 						result[1]['loop_done'] = True
 					self.executeChild(2) # make the very last step happen
 		else:
 			if not self.all_done:
-				print(self.test)
-
+				print(result[1]['prompt'])
 				self.executeChild(2)
