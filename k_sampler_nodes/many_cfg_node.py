@@ -20,23 +20,23 @@ it will be used when saving the graphs.
 OP_NODE_MANY_STEPS = get_next_opcode()
 
 
-class ManyStepsWidget(QDMNodeContentWidget):
+class ManyCfgWidget(QDMNodeContentWidget):
 	show_iteration_signal = QtCore.Signal(str)
 	def initUI(self):
 		self.create_widgets()
 		self.create_main_layout()
 
 	def create_widgets(self):
-		self.steps = self.create_text_edit("Steps")
+		self.steps = self.create_text_edit("CFG")
 		self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
 @register_node(OP_NODE_MANY_STEPS)
-class ManyStepsNode(AiNode):
+class ManyStepssNode(AiNode):
 	icon = "ainodes_frontend/icons/base_nodes/in.png"
 	op_code = OP_NODE_MANY_STEPS
-	op_title = "Many Steps Node"
-	content_label_objname = "many_steps_node"
+	op_title = "Many CFG Node"
+	content_label_objname = "many_cfg_node"
 	category = "Iterators"
 	custom_input_socket_name = ['DONE','LOOP', "DATA", "EXEC"]
 
@@ -46,7 +46,7 @@ class ManyStepsNode(AiNode):
 		super().__init__(scene, inputs=[1, 1, 6, 1], outputs=[1, 6, 1])
 
 	def initInnerClasses(self):
-		self.content = ManyStepsWidget(self)
+		self.content = ManyCfgWidget(self)
 		self.grNode = CalcGraphicsNode(self)
 		self.grNode.width = 340
 		self.grNode.height = 400
@@ -113,12 +113,12 @@ class ManyStepsNode(AiNode):
 				self.steps = self.content.steps.toPlainText().split('\n')
 				self.iteration_lenght = len(self.steps) - 1
 
-			steps = int(self.steps[self.iteration_step])
-			self.content.show_iteration_signal.emit(steps)
+			cfg = int(self.steps[self.iteration_step])
+			self.content.show_iteration_signal.emit(cfg)
 
 
-			data['steps'] = steps
-			data['last_step'] = steps
+			data['cfg'] = cfg
+
 
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
