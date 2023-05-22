@@ -51,7 +51,6 @@ class ManyPromptsNode(AiNode):
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.reset_handler('init')
 		self.reset = False
-		self.reset_signal = dispatcher.Signal()
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
 
 
