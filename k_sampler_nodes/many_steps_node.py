@@ -143,6 +143,7 @@ class ManyStepssNode(AiNode):
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
+		print(result[1])
 		self.setOutput(1, result[1])
 		self.getInput(0)
 
