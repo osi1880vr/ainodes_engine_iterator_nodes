@@ -19,7 +19,7 @@ class LoopIteratorsWidget(QDMNodeContentWidget):
 		self.create_main_layout()
 
 	def create_widgets(self):
-		self.checkbox = self.create_checkbox("Title")
+		self.checkbox = self.create_check_box("Title")
 
 @register_node(OP_NODE_LOOP_ITERATORS)
 class LoopIteratorsNode(AiNode):
