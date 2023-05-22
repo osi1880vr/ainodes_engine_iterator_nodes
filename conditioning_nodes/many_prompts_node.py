@@ -108,7 +108,7 @@ class ManyPromptsNode(AiNode):
 
 			if not data:
 				data = {}
-			print('input ', data)
+
 
 			# here the internal magic starts with finding out how many steps the loop will have
 			if self.iteration_lenght == 0:
@@ -122,9 +122,6 @@ class ManyPromptsNode(AiNode):
 				data['prompt'] = f"{data['prompt']} {prompt}"
 			else:
 				data['prompt'] = prompt
-
-			print('output ', data['prompt'])
-
 
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
