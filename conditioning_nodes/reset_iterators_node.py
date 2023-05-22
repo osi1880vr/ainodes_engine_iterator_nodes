@@ -49,7 +49,7 @@ class ManyPromptsNode(AiNode):
 		self.content.setMinimumWidth(340)
 		self.content.setMinimumHeight(500)
 		self.content.eval_signal.connect(self.evalImplementation)
-		self.reset_signal = dispatcher.Signal()
+
 
 
 	@QtCore.Slot()
