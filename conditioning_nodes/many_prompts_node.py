@@ -57,7 +57,7 @@ class ManyPromptsNode(AiNode):
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
 		self.prompt_show_signal = Signal()
-		self.prompt_show_signal.connect()
+		self.prompt_show_signal.connect(self.set_actual_prompt)
 
 
 	def reset_handler(self, sender):
