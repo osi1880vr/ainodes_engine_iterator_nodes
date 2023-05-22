@@ -1,6 +1,6 @@
 import os
 
-from qtpy.QtCore import Signal
+
 from qtpy import QtCore
 from qtpy import QtWidgets
 
@@ -56,7 +56,7 @@ class ManyPromptsNode(AiNode):
 		self.reset = False
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
-		self.prompt_show_signal = Signal(str)
+		self.prompt_show_signal = QtCore.Signal(str)
 		self.prompt_show_signal.connect(self.set_actual_prompt)
 
 
