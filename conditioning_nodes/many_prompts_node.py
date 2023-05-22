@@ -105,33 +105,33 @@ class ManyPromptsNode(AiNode):
 			else:
 				self.stop_top_iterator = True # if none make sure we dont trigger done
 
-		if not data:
-			data = {}
+			if not data:
+				data = {}
 
 
-		# here the internal magic starts with finding out how many steps the loop will have
-		if self.iteration_lenght == 0:
-			self.prompts = self.content.prompt.toPlainText().split('\n')
-			self.iteration_lenght = len(self.prompts) - 1
+			# here the internal magic starts with finding out how many steps the loop will have
+			if self.iteration_lenght == 0:
+				self.prompts = self.content.prompt.toPlainText().split('\n')
+				self.iteration_lenght = len(self.prompts) - 1
 
-		prompt = self.prompts[self.iteration_step]
-		self.content.actual_prompt.setText(prompt)
+			prompt = self.prompts[self.iteration_step]
+			self.content.actual_prompt.setText(prompt)
 
-		if 'prompt' in data:
-			data['prompt'] = f"{data['prompt']} {prompt}"
-		else:
-			data['prompt'] = prompt
-
-
-		if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
-			if data['loop_done'] == True:
-				self.stop_top_iterator = True
-				data['loop_done'] = False
+			if 'prompt' in data:
+				data['prompt'] = f"{data['prompt']} {prompt}"
+			else:
+				data['prompt'] = prompt
 
 
-		#result = [self.get_conditioning(prompt=prompt)]
-		result = 'test'
-		self.calc_next_step()
+			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
+				if data['loop_done'] == True:
+					self.stop_top_iterator = True
+					data['loop_done'] = False
+
+
+			#result = [self.get_conditioning(prompt=prompt)]
+			result = 'test'
+			self.calc_next_step()
 
 		"""
 		Do your magic here, to access input nodes data, use self.getInputData(index),
