@@ -117,6 +117,7 @@ class ManyPromptsNode(AiNode):
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
 					self.stop_top_iterator = True
+					data['loop_done'] = False
 
 
 			#result = [self.get_conditioning(prompt=prompt)]
