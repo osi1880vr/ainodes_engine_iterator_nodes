@@ -28,6 +28,7 @@ class LoopIteratorsNode(AiNode):
 
 	def __init__(self, scene):
 		super().__init__(scene, inputs=[6, 1], outputs=[1,1])
+		self.checkbox = self.create_checkbox("Keep looping")
 
 	def initInnerClasses(self):
 		self.content = LoopIteratorsWidget(self)
@@ -38,6 +39,7 @@ class LoopIteratorsNode(AiNode):
 		self.content.setMinimumHeight(100)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.counter = 0
+		self.checkbox.setChecked = True
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
@@ -64,12 +66,13 @@ class LoopIteratorsNode(AiNode):
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
-		self.counter += 1
-		if result is not None:
-			if self.counter > result - 2:
-				self.executeChild(0)
-				self.counter = 0
-			if self.counter < result - 1:
+		if self.checkbox.isChecked:
+			self.counter += 1
+			if result is not None:
+				if self.counter > result - 2:
+					self.executeChild(0)
+					self.counter = 0
+				if self.counter < result - 1:
+					self.executeChild(1)
+			else:
 				self.executeChild(1)
-		else:
-			self.executeChild(1)
