@@ -113,7 +113,7 @@ class ManyStepssNode(AiNode):
 				self.steps = self.content.steps.toPlainText().split('\n')
 				self.iteration_lenght = len(self.steps) - 1
 
-			cfg = int(self.steps[self.iteration_step])
+			cfg = float(self.steps[self.iteration_step])
 			self.content.show_iteration_signal.emit(cfg)
 
 
