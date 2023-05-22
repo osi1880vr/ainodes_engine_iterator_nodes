@@ -102,6 +102,7 @@ class ManyPromptsNode(AiNode):
 			if len(self.getInputs(2)) > 0: # get data from a maybe top loop
 				data_node, index = self.getInput(2)
 				data = data_node.getOutput(index)
+				data = data.copy()
 			else:
 				self.stop_top_iterator = True # if none make sure we dont trigger done
 
