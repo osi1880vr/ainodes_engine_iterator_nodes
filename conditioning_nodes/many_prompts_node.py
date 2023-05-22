@@ -1,4 +1,6 @@
 import os
+
+from PySide6.QtCore import Signal
 from qtpy import QtCore
 from qtpy import QtWidgets
 
@@ -54,6 +56,8 @@ class ManyPromptsNode(AiNode):
 		self.reset = False
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
+		self.prompt_show_signal = Signal()
+		self.prompt_show_signal.connect()
 
 
 	def reset_handler(self, sender):
@@ -65,6 +69,9 @@ class ManyPromptsNode(AiNode):
 		self.prompts = []
 		self.stop_top_iterator = False
 		self.reset = False
+
+	def set_actual_prompt(self, prompt):
+		self.content.actual_prompt.setText(prompt)
 
 	def get_conditioning(self, prompt="", progress_callback=None):
 
@@ -116,7 +123,8 @@ class ManyPromptsNode(AiNode):
 				self.iteration_lenght = len(self.prompts) - 1
 
 			prompt = self.prompts[self.iteration_step]
-			self.content.actual_prompt.setText(prompt)
+			self.prompt_show_signal.emit(prompt)
+
 
 			if 'prompt' in data:
 				data['prompt'] = f"{data['prompt']} {prompt}"
