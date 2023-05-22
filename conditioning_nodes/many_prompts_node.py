@@ -46,7 +46,7 @@ class ManyPromptsNode(AiNode):
 		self.content = ManyPromptsWidget(self)
 		self.grNode = CalcGraphicsNode(self)
 		self.grNode.width = 340
-		self.grNode.height = 500
+		self.grNode.height = 400
 		self.content.setMinimumWidth(340)
 		self.content.setMinimumHeight(300)
 		self.content.eval_signal.connect(self.evalImplementation)
