@@ -21,6 +21,7 @@ OP_NODE_MANY_PROMPTS = get_next_opcode()
 
 
 class ManyPromptsWidget(QDMNodeContentWidget):
+	prompt_show_signal = QtCore.Signal(str)
 	def initUI(self):
 		self.create_widgets()
 		self.create_main_layout()
@@ -56,8 +57,8 @@ class ManyPromptsNode(AiNode):
 		self.reset = False
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
-		self.prompt_show_signal = QtCore.Signal(str)
-		self.prompt_show_signal.connect(self.set_actual_prompt)
+
+		self.content.prompt_show_signal.connect(self.set_actual_prompt)
 
 
 	def reset_handler(self, sender):
@@ -70,6 +71,7 @@ class ManyPromptsNode(AiNode):
 		self.stop_top_iterator = False
 		self.reset = False
 
+	@QtCore.Slot(str)
 	def set_actual_prompt(self, prompt):
 		self.content.actual_prompt.setText(prompt)
 
