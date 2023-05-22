@@ -20,15 +20,12 @@ OP_NODE_RESET_ITERATORS = get_next_opcode()
 
 class ResetIteratorsWidget(QDMNodeContentWidget):
 	def initUI(self):
-		self.create_widgets()
 		self.create_main_layout()
 
-	def create_widgets(self):
-		self.prompt = self.create_text_edit("Prompt")
 
 
 @register_node(OP_NODE_RESET_ITERATORS)
-class ManyPromptsNode(AiNode):
+class ResetIteratorsNode(AiNode):
 	icon = "ainodes_frontend/icons/base_nodes/in.png"
 	op_code = OP_NODE_RESET_ITERATORS
 	op_title = "Reset Iterators Node"
@@ -44,10 +41,10 @@ class ManyPromptsNode(AiNode):
 	def initInnerClasses(self):
 		self.content = ResetIteratorsWidget(self)
 		self.grNode = CalcGraphicsNode(self)
-		self.grNode.width = 340
-		self.grNode.height = 500
-		self.content.setMinimumWidth(340)
-		self.content.setMinimumHeight(500)
+		self.grNode.width = 240
+		self.grNode.height = 150
+		self.content.setMinimumWidth(240)
+		self.content.setMinimumHeight(150)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.reset_signal = 'reset_iterator'
 
@@ -59,6 +56,6 @@ class ManyPromptsNode(AiNode):
 		return
 
 	@QtCore.Slot(object)
-	def onWorkerFinished(self):
+	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
 		self.executeChild(0)
