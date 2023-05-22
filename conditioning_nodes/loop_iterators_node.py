@@ -72,7 +72,7 @@ class LoopIteratorsNode(AiNode):
 	@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
 		super().onWorkerFinished(None)
-		if self.content.checkbox.isChecked:
+		if self.content.checkbox.isChecked():
 			self.counter += 1
 			if result is not None:
 				if self.counter > result - 2:
