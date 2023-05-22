@@ -122,6 +122,8 @@ class ManyPromptsNode(AiNode):
 			else:
 				data['prompt'] = prompt
 
+			print(data['prompt'])
+
 
 			if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
 				if data['loop_done'] == True:
