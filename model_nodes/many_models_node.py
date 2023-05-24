@@ -102,7 +102,11 @@ class ManyModelsNode(AiNode):
     @QtCore.Slot()
     def add_config_value(self):
         current_text = self.content.steps.toPlainText()
-        self.content.steps.setText(f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
+        if current_text != '':
+            self.content.steps.setText(f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
+        else:
+            self.content.steps.setText(
+                f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
 
     def calc_next_step(self):
         self.iteration_step += 1
