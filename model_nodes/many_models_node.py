@@ -4,6 +4,7 @@ import os
 from qtpy import QtCore
 from qtpy import QtWidgets
 
+from ..ainodes_backend import torch_gc
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
@@ -114,7 +115,24 @@ class ManyModelsNode(AiNode):
         if self.iteration_step > self.iteration_lenght:
             self.done = True
 
-
+    def clean_sd(self):
+        gs.loaded_loras = []
+        if "sd" in gs.models:
+            try:
+                gs.models["sd"].cpu()
+            except:
+                pass
+            del gs.models["sd"]
+            gs.models["sd"] = None
+            torch_gc()
+        if "inpaint" in gs.models:
+            try:
+                gs.models["inpaint"].cpu()
+            except:
+                pass
+            del gs.models["inpaint"]
+            gs.models["inpaint"] = None
+            torch_gc()
 
     @QtCore.Slot()
     def evalImplementation_thread(self):
@@ -150,7 +168,33 @@ class ManyModelsNode(AiNode):
                 value = self.steps[self.iteration_step]
                 self.content.show_iteration_signal.emit(value)
 
-                data_node = self.getOutputs(2)
+                model_name, config_name = value.split(',')
+
+
+                inpaint = True if "inpaint" in model_name else False
+                m = "sd_model" if not inpaint else "inpaint"
+                if gs.loaded_sd != model_name or self.content.force_reload.isChecked() == True:
+                    self.clean_sd()
+                    self.loader.load_model(model_name, config_name, inpaint)
+                    gs.loaded_sd = model_name
+                    self.setOutput(0, model_name)
+                if self.content.vae_dropdown.currentText() != 'default':
+                    model = self.content.vae_dropdown.currentText()
+                    self.loader.load_vae(model)
+                    gs.loaded_vae = model
+                else:
+                    gs.loaded_vae = 'default'
+                if gs.loaded_vae != self.content.vae_dropdown.currentText():
+                    model = self.content.vae_dropdown.currentText()
+                    self.loader.load_vae(model)
+                    gs.loaded_vae = model
+                else:
+                    self.markDirty(False)
+                    self.markInvalid(False)
+                    self.grNode.setToolTip("")
+
+
+
 
 
                 if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
