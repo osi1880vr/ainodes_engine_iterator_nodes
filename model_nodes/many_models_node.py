@@ -22,6 +22,7 @@ OP_NODE_MANY_MODELS = get_next_opcode()
 
 class ManyModelsWidget(QDMNodeContentWidget):
     show_iteration_signal = QtCore.Signal(str)
+    add_config_signal = QtCore.Signal()
     def initUI(self):
         self.create_widgets()
         self.create_main_layout()
@@ -41,6 +42,11 @@ class ManyModelsWidget(QDMNodeContentWidget):
         config_files = sorted(config_files, key=str.lower)
         self.config_dropdown = self.create_combo_box(config_files, "Configs")
         self.config_dropdown.setCurrentText("v1-inference_fp16.yaml")
+
+        self.add_button = QtWidgets.QPushButton("Add Model Config")
+
+        self.steps = self.create_text_edit("Values")
+
         self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
@@ -71,6 +77,8 @@ class ManyModelsNode(AiNode):
         self.reset_signal = 'reset_iterator'
         dispatcher.connect(self.reset_handler, signal=self.reset_signal)
         self.content.show_iteration_signal.connect(self.set_actual_value)
+        self.content.add_config_signal.connect(self.add_config_value)
+        self.content.add_button.clicked.connect(self.add_config)
 
     @QtCore.Slot()
     def reset_handler(self, sender):
@@ -87,6 +95,14 @@ class ManyModelsNode(AiNode):
     def set_actual_value(self, value):
         self.content.actual_iteration_value.setText(value)
 
+
+    def add_config(self):
+        self.content.add_config_signal.emit()
+
+    @QtCore.Slot()
+    def add_config_value(self, value):
+        current_text = self.steps.currentText()
+        self.steps.setText(f'{current_text}\n{self.dropdown.currentText()},{self.config_dropdown.currentText()}')
 
     def calc_next_step(self):
         self.iteration_step += 1
@@ -128,14 +144,7 @@ class ManyModelsNode(AiNode):
             value = self.steps[self.iteration_step]
             self.content.show_iteration_signal.emit(value)
 
-            current_selection = self.content.dropdown.currentText()
 
-            if current_selection in ['steps', 'seed']:
-                data[current_selection] = int(value)
-            elif current_selection in ['cfg']:
-                data[current_selection] = float(value)
-            else:
-                data[current_selection] = str(value)
 
 
 
