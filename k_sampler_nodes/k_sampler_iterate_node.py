@@ -114,7 +114,7 @@ class KsamplerIterNode(AiNode):
                 self.steps = self.content.steps.toPlainText().split('\n')
                 self.iteration_lenght = len(self.steps) - 1
 
-            value = float(self.steps[self.iteration_step])
+            value = self.steps[self.iteration_step]
             self.content.show_iteration_signal.emit(value)
 
             current_selection = self.content.dropdown.currentText()
