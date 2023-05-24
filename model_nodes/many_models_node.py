@@ -45,6 +45,14 @@ class ManyModelsWidget(QDMNodeContentWidget):
         config_files = sorted(config_files, key=str.lower)
         self.config_dropdown = self.create_combo_box(config_files, "Configs")
         self.config_dropdown.setCurrentText("v1-inference_fp16.yaml")
+        vae_folder = gs.vae
+        vae_files = [f for f in os.listdir(vae_folder) if f.endswith(('.ckpt', '.pt', '.bin', '.pth', '.safetensors'))]
+        vae_files = sorted(vae_files, key=str.lower)
+        self.vae_dropdown = self.create_combo_box(vae_files, "Vae")
+        self.vae_dropdown.addItem("default")
+        self.vae_dropdown.setCurrentText("default")
+
+        self.force_reload = self.create_check_box("Force Reload")
 
         self.add_button = QtWidgets.QPushButton("Add Model Config")
         self.create_button_layout([self.add_button])
@@ -108,7 +116,7 @@ class ManyModelsNode(AiNode):
         current_text = self.content.steps.toPlainText()
         if current_text != '':
             self.content.steps.setText(
-                f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
+                f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()}')
         else:
             self.content.steps.setText(
                 f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
@@ -171,7 +179,7 @@ class ManyModelsNode(AiNode):
                 value = self.steps[self.iteration_step]
                 self.content.show_iteration_signal.emit(value)
 
-                model_name, config_name = value.split(',')
+                model_name, config_name, vae_name = value.split(',')
 
 
                 inpaint = True if "inpaint" in model_name else False
@@ -181,14 +189,14 @@ class ManyModelsNode(AiNode):
                     self.loader.load_model(model_name, config_name, inpaint)
                     gs.loaded_sd = model_name
                     self.setOutput(0, model_name)
-                if self.content.vae_dropdown.currentText() != 'default':
-                    model = self.content.vae_dropdown.currentText()
+                if vae_name != 'default':
+                    model = vae_name
                     self.loader.load_vae(model)
                     gs.loaded_vae = model
                 else:
                     gs.loaded_vae = 'default'
-                if gs.loaded_vae != self.content.vae_dropdown.currentText():
-                    model = self.content.vae_dropdown.currentText()
+                if gs.loaded_vae != vae_name:
+                    model = vae_name
                     self.loader.load_vae(model)
                     gs.loaded_vae = model
                 else:
