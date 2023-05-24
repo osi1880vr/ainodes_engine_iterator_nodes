@@ -4,8 +4,8 @@ import os
 from qtpy import QtCore
 from qtpy import QtWidgets
 
-from ..ainodes_backend.model_loader import ModelLoader
-from ..ainodes_backend import torch_gc
+from custom_nodes.ainodes_engine_base_nodes.ainodes_backend.model_loader import ModelLoader
+from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import torch_gc
 
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
