@@ -4,7 +4,9 @@ import os
 from qtpy import QtCore
 from qtpy import QtWidgets
 
+from ..ainodes_backend.model_loader import ModelLoader
 from ..ainodes_backend import torch_gc
+
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
 from ainodes_frontend.node_engine.node_content_widget import QDMNodeContentWidget
@@ -64,6 +66,7 @@ class ManyModelsNode(AiNode):
 
     def __init__(self, scene):
         super().__init__(scene, inputs=[1, 1, 6, 1], outputs=[1, 6, 1])
+        self.loader = ModelLoader()
 
     def initInnerClasses(self):
         self.content = ManyModelsWidget(self)
