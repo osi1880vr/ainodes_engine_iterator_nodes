@@ -103,7 +103,8 @@ class ManyModelsNode(AiNode):
     def add_config_value(self):
         current_text = self.content.steps.toPlainText()
         if current_text != '':
-            self.content.steps.setText(f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
+            self.content.steps.setText(
+                f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
         else:
             self.content.steps.setText(
                 f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
@@ -148,8 +149,7 @@ class ManyModelsNode(AiNode):
             value = self.steps[self.iteration_step]
             self.content.show_iteration_signal.emit(value)
 
-
-
+            data_node, index = self.getOutput(2)
 
 
             if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
