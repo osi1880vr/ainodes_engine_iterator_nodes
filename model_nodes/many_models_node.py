@@ -31,7 +31,7 @@ class ManyModelsWidget(QDMNodeContentWidget):
         checkpoint_files = [f for f in os.listdir(checkpoint_folder) if
                             f.endswith(('.ckpt', '.pt', '.bin', '.pth', '.safetensors'))]
         self.steps = self.create_list_view("Values")
-        self.steps.addItems(checkpoint_files)
+        self.steps.insertItems(0,checkpoint_files)
         self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
