@@ -150,7 +150,7 @@ class ManyModelsNode(AiNode):
                 value = self.steps[self.iteration_step]
                 self.content.show_iteration_signal.emit(value)
 
-                data_node, index = self.getOutput(2)
+                data_node = self.getOutput(2)
 
 
                 if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
