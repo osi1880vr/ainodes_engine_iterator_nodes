@@ -44,7 +44,7 @@ class ManyModelsWidget(QDMNodeContentWidget):
         self.config_dropdown.setCurrentText("v1-inference_fp16.yaml")
 
         self.add_button = QtWidgets.QPushButton("Add Model Config")
-
+        self.create_button_layout([self.add_button])
         self.steps = self.create_text_edit("Values")
 
         self.actual_iteration_value = self.create_line_edit("Actual Value")
