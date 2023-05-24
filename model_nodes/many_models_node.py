@@ -119,7 +119,7 @@ class ManyModelsNode(AiNode):
                 f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()}')
         else:
             self.content.steps.setText(
-                f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()}')
+                f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()')
 
     def calc_next_step(self):
         self.iteration_step += 1
