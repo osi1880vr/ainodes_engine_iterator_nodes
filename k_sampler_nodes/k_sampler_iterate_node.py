@@ -117,7 +117,7 @@ class KsamplerIterNode(AiNode):
             value = float(self.steps[self.iteration_step])
             self.content.show_iteration_signal.emit(value)
 
-            current_selection = self.dropdown.currentText()
+            current_selection = self.content.dropdown.currentText()
 
             if current_selection in ['steps', 'seed']:
                 data[current_selection] = int(value)
