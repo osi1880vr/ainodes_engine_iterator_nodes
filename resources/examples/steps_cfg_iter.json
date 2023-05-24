@@ -1,0 +1,552 @@
+{
+    "id": 2526452616976,
+    "scene_width": 64000,
+    "scene_height": 64000,
+    "nodes": [
+        {
+            "id": 2526452617216,
+            "title": "Execute",
+            "pos_x": -645.0,
+            "pos_y": -53.0,
+            "inputs": [
+                {
+                    "id": 2526452616544,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452616304,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "exec_node"
+        },
+        {
+            "id": 2526452618272,
+            "title": "Torch Loader",
+            "pos_x": -146.0,
+            "pos_y": -97.0,
+            "inputs": [
+                {
+                    "id": 2526452618464,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452614768,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Models": "v1-5-pruned-emaonly.ckpt",
+                "Configs": "v1-inference_fp16.yaml",
+                "Vae": "default",
+                "Force Reload": "False"
+            },
+            "op_code": 30,
+            "content_label_objname": "torch_loader_node"
+        },
+        {
+            "id": 2526452617312,
+            "title": "Reset Iterators Node",
+            "pos_x": -341.0,
+            "pos_y": 131.0,
+            "inputs": [
+                {
+                    "id": 2526452615680,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452615776,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 56,
+            "content_label_objname": "reset_iterators_node"
+        },
+        {
+            "id": 2526452615824,
+            "title": "Many Steps Node",
+            "pos_x": 1201.0625000000002,
+            "pos_y": -111.35937500000001,
+            "inputs": [
+                {
+                    "id": 2526452616880,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2526452616928,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2526452616784,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452616832,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452616688,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2526452616640,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452617168,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Steps": "5\n10\n15\n20\n30\n40\n50",
+                "Actual Value": ""
+            },
+            "op_code": 58,
+            "content_label_objname": "many_steps_node"
+        },
+        {
+            "id": 2526452618416,
+            "title": "K Sampler",
+            "pos_x": 1684.2187499999998,
+            "pos_y": -210.234375,
+            "inputs": [
+                {
+                    "id": 2526452615728,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452615008,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 2
+                },
+                {
+                    "id": 2526452615056,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2526452615200,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2526452615248,
+                    "index": 4,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452615152,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2526452615440,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 2
+                },
+                {
+                    "id": 2526452616016,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Scheduler:": "karras",
+                "Sampler:": "euler",
+                "Seed:": "",
+                "Steps:": 10,
+                "Start Step:": 0,
+                "Last Step:": 5,
+                "Stop Sampling Early": "False",
+                "Force full denoise": "True",
+                "Disable noise generation": "False",
+                "Iterate seed": "False",
+                "Denoise:": 1.0,
+                "Guidance Scale:": 7.5
+            },
+            "op_code": 23,
+            "content_label_objname": "K_sampling_node"
+        },
+        {
+            "id": 2526452618368,
+            "title": "Conditioning",
+            "pos_x": 174.70312500000034,
+            "pos_y": 111.26562499999989,
+            "inputs": [
+                {
+                    "id": 2526452618752,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452619040,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452619088,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452619136,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2526452619184,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": "some magic woman"
+            },
+            "op_code": 17,
+            "content_label_objname": "cond_node"
+        },
+        {
+            "id": 2526452619808,
+            "title": "Image Preview",
+            "pos_x": 2341.7968750000005,
+            "pos_y": -184.76562499999994,
+            "inputs": [
+                {
+                    "id": 2526452620624,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2526452620960,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452621008,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2526452621056,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2526452621104,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2526452621152,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 12,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2507622258416,
+            "title": "Conditioning",
+            "pos_x": 583.8125000000002,
+            "pos_y": 40.62500000000003,
+            "inputs": [
+                {
+                    "id": 2507622257648,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2507622258368,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2507622252656,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2507622253712,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2507622258512,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": ""
+            },
+            "op_code": 17,
+            "content_label_objname": "cond_node"
+        },
+        {
+            "id": 2450602155584,
+            "title": "Many CFG Node",
+            "pos_x": 773.9257812499995,
+            "pos_y": -515.1367187499997,
+            "inputs": [
+                {
+                    "id": 2450601860624,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2450601860528,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2450601860912,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2450601860720,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2450601860768,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2450601860816,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2450601861392,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "CFG": "7.5\n8\n9.5\n12",
+                "Actual Value": ""
+            },
+            "op_code": 57,
+            "content_label_objname": "many_cfg_node"
+        }
+    ],
+    "edges": [
+        {
+            "id": 2526452620816,
+            "edge_type": 2,
+            "start": 2526452616016,
+            "end": 2526452621008
+        },
+        {
+            "id": 2526452621296,
+            "edge_type": 2,
+            "start": 2526452615152,
+            "end": 2526452620624
+        },
+        {
+            "id": 2526452621584,
+            "edge_type": 2,
+            "start": 2526452621152,
+            "end": 2526452616928
+        },
+        {
+            "id": 2526452620768,
+            "edge_type": 2,
+            "start": 2526452619136,
+            "end": 2526452615200
+        },
+        {
+            "id": 2526452622784,
+            "edge_type": 2,
+            "start": 2526452616304,
+            "end": 2526452615680
+        },
+        {
+            "id": 2526452623072,
+            "edge_type": 2,
+            "start": 2526452615776,
+            "end": 2526452618464
+        },
+        {
+            "id": 2507622257552,
+            "edge_type": 2,
+            "start": 2526452619184,
+            "end": 2507622258368
+        },
+        {
+            "id": 2507622256304,
+            "edge_type": 2,
+            "start": 2507622253712,
+            "end": 2526452615056
+        },
+        {
+            "id": 2191410004368,
+            "edge_type": 2,
+            "start": 2526452614768,
+            "end": 2526452619040
+        },
+        {
+            "id": 2191410013776,
+            "edge_type": 2,
+            "start": 2526452616640,
+            "end": 2526452615728
+        },
+        {
+            "id": 2450602149392,
+            "edge_type": 2,
+            "start": 2450601860816,
+            "end": 2526452616784
+        },
+        {
+            "id": 2450602149104,
+            "edge_type": 2,
+            "start": 2450601861392,
+            "end": 2526452616832
+        },
+        {
+            "id": 2450601861680,
+            "edge_type": 2,
+            "start": 2507622258512,
+            "end": 2450601860720
+        },
+        {
+            "id": 2448340200432,
+            "edge_type": 2,
+            "start": 2526452616688,
+            "end": 2450601860528
+        },
+        {
+            "id": 2297207567408,
+            "edge_type": 2,
+            "start": 2526452617168,
+            "end": 2526452615248
+        }
+    ]
+}
