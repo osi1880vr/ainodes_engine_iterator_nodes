@@ -100,7 +100,7 @@ class ManyModelsNode(AiNode):
         self.content.add_config_signal.emit()
 
     @QtCore.Slot()
-    def add_config_value(self, value):
+    def add_config_value(self):
         current_text = self.steps.currentText()
         self.steps.setText(f'{current_text}\n{self.dropdown.currentText()},{self.config_dropdown.currentText()}')
 
