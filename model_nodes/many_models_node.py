@@ -124,52 +124,55 @@ class ManyModelsNode(AiNode):
         data = None
         result = None
 
-        if not self.all_done:
+        try:
+            if not self.all_done:
 
-            if self.iteration_step == -1:
-                return result, data
+                if self.iteration_step == -1:
+                    return result, data
 
-            # care for the loops to work as such, no node fucntionality yet
-            if len(self.getInputs(2)) > 0: # get data from a maybe top loop
-                data_node, index = self.getInput(2)
-                data = data_node.getOutput(index)
-                data = data.copy()
-            else:
-                self.stop_top_iterator = True # if none make sure we dont trigger done
+                # care for the loops to work as such, no node fucntionality yet
+                if len(self.getInputs(2)) > 0: # get data from a maybe top loop
+                    data_node, index = self.getInput(2)
+                    data = data_node.getOutput(index)
+                    data = data.copy()
+                else:
+                    self.stop_top_iterator = True # if none make sure we dont trigger done
 
-            if not data:
-                data = {}
-
-
-            # here the internal magic starts with finding out how many steps the loop will have
-            if self.iteration_lenght == 0:
-                self.steps = self.content.steps.toPlainText().split('\n')
-                self.iteration_lenght = len(self.steps) - 1
-
-            value = self.steps[self.iteration_step]
-            self.content.show_iteration_signal.emit(value)
-
-            data_node, index = self.getOutput(2)
+                if not data:
+                    data = {}
 
 
-            if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
-                if data['loop_done'] == True:
-                    self.stop_top_iterator = True
-                    data['loop_done'] = False
+                # here the internal magic starts with finding out how many steps the loop will have
+                if self.iteration_lenght == 0:
+                    self.steps = self.content.steps.toPlainText().split('\n')
+                    self.iteration_lenght = len(self.steps) - 1
 
-            self.calc_next_step()
+                value = self.steps[self.iteration_step]
+                self.content.show_iteration_signal.emit(value)
 
-        """
-        Do your magic here, to access input nodes data, use self.getInputData(index),
-        this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
-        it's super call makes sure we clean up and safely return.
+                data_node, index = self.getOutput(2)
 
-        Inputs and Outputs are listed from the bottom of the node.
-        """
 
-        if data is not None:
-        #Before we return the data, we make sure, the current prompt count is in it with the node's unique id
-            data[f"iterator_{self.getID(0)}"] = len(self.steps)
+                if data and 'loop_done' in data: # if the top loop tels us its done with its loop make sure no more done is send
+                    if data['loop_done'] == True:
+                        self.stop_top_iterator = True
+                        data['loop_done'] = False
+
+                self.calc_next_step()
+
+            """
+            Do your magic here, to access input nodes data, use self.getInputData(index),
+            this is inherently threaded, so returning the value passes it to the onWorkerFinished function,
+            it's super call makes sure we clean up and safely return.
+    
+            Inputs and Outputs are listed from the bottom of the node.
+            """
+
+            if data is not None:
+            #Before we return the data, we make sure, the current prompt count is in it with the node's unique id
+                data[f"iterator_{self.getID(0)}"] = len(self.steps)
+        except:
+            pass
 
         return result, data
 
