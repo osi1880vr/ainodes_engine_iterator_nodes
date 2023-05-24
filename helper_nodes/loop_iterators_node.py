@@ -1,3 +1,4 @@
+from pydispatch import dispatcher
 from qtpy import QtCore
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
@@ -46,6 +47,14 @@ class LoopIteratorsNode(AiNode):
 		self.counter = 0
 		self.content.set_checked_signal.connect(self.set_checked)
 		self.content.set_checked_signal.emit()
+		self.reset_signal = 'reset_iterator'
+		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
+
+	@QtCore.Slot()
+	def reset_handler(self, sender):
+		self.reset = True
+		self.counter = 0
+		self.reset = False
 
 	@QtCore.Slot()
 	def set_checked(self):
@@ -53,6 +62,10 @@ class LoopIteratorsNode(AiNode):
 
 	@QtCore.Slot()
 	def evalImplementation_thread(self):
+
+		while self.reset:
+			pass
+
 		data = self.getInputData(0)
 		result = 1
 
