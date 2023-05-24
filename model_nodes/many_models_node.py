@@ -30,8 +30,17 @@ class ManyModelsWidget(QDMNodeContentWidget):
         checkpoint_folder = gs.checkpoints
         checkpoint_files = [f for f in os.listdir(checkpoint_folder) if
                             f.endswith(('.ckpt', '.pt', '.bin', '.pth', '.safetensors'))]
-        self.steps = self.create_list_view("Values")
-        self.steps.addItem('test')
+        self.dropdown = self.create_combo_box(checkpoint_files, "Models")
+        if checkpoint_files == []:
+            self.dropdown.addItem("Please place a model in models/checkpoints")
+            print(f"TORCH LOADER NODE: No model file found at {os.getcwd()}/models/checkpoints,")
+            print(f"TORCH LOADER NODE: please download your favorite ckpt before Evaluating this node.")
+
+        config_folder = "models/configs"
+        config_files = [f for f in os.listdir(config_folder) if f.endswith((".yaml"))]
+        config_files = sorted(config_files, key=str.lower)
+        self.config_dropdown = self.create_combo_box(config_files, "Configs")
+        self.config_dropdown.setCurrentText("v1-inference_fp16.yaml")
         self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
