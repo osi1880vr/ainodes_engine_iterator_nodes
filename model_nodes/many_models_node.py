@@ -171,8 +171,8 @@ class ManyModelsNode(AiNode):
             if data is not None:
             #Before we return the data, we make sure, the current prompt count is in it with the node's unique id
                 data[f"iterator_{self.getID(0)}"] = len(self.steps)
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
         return result, data
 
