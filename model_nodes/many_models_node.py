@@ -104,6 +104,7 @@ class ManyModelsNode(AiNode):
         self.all_done = False
         self.prompts = []
         self.stop_top_iterator = False
+        self.last_style = None
         self.reset = False
 
     @QtCore.Slot(str)
@@ -183,6 +184,10 @@ class ManyModelsNode(AiNode):
                 self.content.show_iteration_signal.emit(value)
 
                 model_name, config_name, vae_name, style = value.split(',')
+
+                # if style has changed from last iteration we have to force a reload of model
+                if self.last_style and self.last_style != style:
+                    self.clean_sd()
 
 
                 inpaint = True if "inpaint" in model_name else False
