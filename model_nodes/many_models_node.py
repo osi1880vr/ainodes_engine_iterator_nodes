@@ -185,7 +185,7 @@ class ManyModelsNode(AiNode):
 
                 model_name, config_name, vae_name, optimization = value.split(',')
 
-                # if style has changed from last iteration we have to force a reload of model
+                # if optimization has changed from last iteration we have to force a reload of model
                 if self.last_optimization and self.last_optimization != optimization:
                     self.clean_sd()
 
