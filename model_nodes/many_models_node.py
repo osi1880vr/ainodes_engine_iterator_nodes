@@ -6,6 +6,7 @@ from qtpy import QtWidgets
 
 from custom_nodes.ainodes_engine_base_nodes.ainodes_backend.model_loader import ModelLoader
 from custom_nodes.ainodes_engine_base_nodes.ainodes_backend import torch_gc
+from custom_nodes.ainodes_engine_base_nodes.ainodes_backend.sd_optimizations.sd_hijack import valid_optimizations
 
 from ainodes_frontend.base import register_node, get_next_opcode
 from ainodes_frontend.base import AiNode, CalcGraphicsNode
@@ -51,6 +52,8 @@ class ManyModelsWidget(QDMNodeContentWidget):
         self.vae_dropdown = self.create_combo_box(vae_files, "Vae")
         self.vae_dropdown.addItem("default")
         self.vae_dropdown.setCurrentText("default")
+
+        self.optimization = self.create_combo_box(valid_optimizations, "LDM Optimization")
 
         self.force_reload = self.create_check_box("Force Reload")
 
@@ -116,10 +119,10 @@ class ManyModelsNode(AiNode):
         current_text = self.content.steps.toPlainText()
         if current_text != '':
             self.content.steps.setText(
-                f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()}')
+                f'{current_text}\n{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()},{self.content.optimization.currentText()}')
         else:
             self.content.steps.setText(
-                f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()}')
+                f'{self.content.dropdown.currentText()},{self.content.config_dropdown.currentText()},{self.content.vae_dropdown.currentText()},{self.content.optimization.currentText()}')
 
     def calc_next_step(self):
         self.iteration_step += 1
@@ -179,14 +182,14 @@ class ManyModelsNode(AiNode):
                 value = self.steps[self.iteration_step]
                 self.content.show_iteration_signal.emit(value)
 
-                model_name, config_name, vae_name = value.split(',')
+                model_name, config_name, vae_name, style = value.split(',')
 
 
                 inpaint = True if "inpaint" in model_name else False
                 m = "sd_model" if not inpaint else "inpaint"
                 if gs.loaded_sd != model_name or self.content.force_reload.isChecked() == True:
                     self.clean_sd()
-                    self.loader.load_model(model_name, config_name, inpaint)
+                    self.loader.load_model(model_name, config_name, inpaint, style)
                     gs.loaded_sd = model_name
                     self.setOutput(0, model_name)
                 if vae_name != 'default':
@@ -233,6 +236,10 @@ class ManyModelsNode(AiNode):
 
     @QtCore.Slot(object)
     def onWorkerFinished(self, result):
+        self.markDirty(False)
+        self.markInvalid(False)
+        self.grNode.setToolTip("")
+
         super().onWorkerFinished(None)
         print(result[1])
         self.setOutput(1, result[1])
