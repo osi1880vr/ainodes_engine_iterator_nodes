@@ -104,7 +104,7 @@ class ManyModelsNode(AiNode):
         self.all_done = False
         self.prompts = []
         self.stop_top_iterator = False
-        self.last_style = None
+        self.last_optimization = None
         self.reset = False
 
     @QtCore.Slot(str)
@@ -183,10 +183,10 @@ class ManyModelsNode(AiNode):
                 value = self.steps[self.iteration_step]
                 self.content.show_iteration_signal.emit(value)
 
-                model_name, config_name, vae_name, style = value.split(',')
+                model_name, config_name, vae_name, optimization = value.split(',')
 
                 # if style has changed from last iteration we have to force a reload of model
-                if self.last_style and self.last_style != style:
+                if self.last_optimization and self.last_optimization != optimization:
                     self.clean_sd()
 
 
@@ -194,7 +194,7 @@ class ManyModelsNode(AiNode):
                 m = "sd_model" if not inpaint else "inpaint"
                 if gs.loaded_sd != model_name or self.content.force_reload.isChecked() == True:
                     self.clean_sd()
-                    self.loader.load_model(model_name, config_name, inpaint, style)
+                    self.loader.load_model(model_name, config_name, inpaint, optimization)
                     gs.loaded_sd = model_name
                     self.setOutput(0, model_name)
                 if vae_name != 'default':
