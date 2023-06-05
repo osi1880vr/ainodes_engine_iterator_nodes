@@ -49,13 +49,15 @@ class ResetIteratorsNode(AiNode):
 		self.reset_signal = 'reset_iterator'
 
 
-	@QtCore.Slot()
+	#@QtCore.Slot()
 	def evalImplementation_thread(self):
 		self.busy = True
 		dispatcher.send(signal=self.reset_signal, sender="Iterator reset")
 		return None
 
-	@QtCore.Slot(object)
+	#@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
-		super().onWorkerFinished(None)
+		self.busy = False
+
+		#super().onWorkerFinished(None)
 		self.executeChild(0)

@@ -50,17 +50,17 @@ class LoopIteratorsNode(AiNode):
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
 
-	@QtCore.Slot()
+	#@QtCore.Slot()
 	def reset_handler(self, sender):
 		self.reset = True
 		self.counter = 0
 		self.reset = False
 
-	@QtCore.Slot()
+	#@QtCore.Slot()
 	def set_checked(self):
 		self.content.checkbox.setChecked(True)
 
-	@QtCore.Slot()
+	#@QtCore.Slot()
 	def evalImplementation_thread(self):
 
 		while self.reset:
@@ -82,9 +82,11 @@ class LoopIteratorsNode(AiNode):
 		return result
 
 
-	@QtCore.Slot(object)
+	#@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
-		super().onWorkerFinished(None)
+		#super().onWorkerFinished(None)
+		self.busy = False
+
 		if self.content.checkbox.isChecked():
 			self.counter += 1
 			if result is not None:

@@ -61,7 +61,7 @@ class KsamplerIterNode(AiNode):
         dispatcher.connect(self.reset_handler, signal=self.reset_signal)
         self.content.show_iteration_signal.connect(self.set_actual_value)
 
-    @QtCore.Slot()
+    #@QtCore.Slot()
     def reset_handler(self, sender):
         self.reset = True
         self.iteration_lenght = 0
@@ -72,7 +72,7 @@ class KsamplerIterNode(AiNode):
         self.stop_top_iterator = False
         self.reset = False
 
-    @QtCore.Slot(str)
+    #@QtCore.Slot(str)
     def set_actual_value(self, value):
         self.content.actual_iteration_value.setText(value)
 
@@ -84,7 +84,7 @@ class KsamplerIterNode(AiNode):
 
 
 
-    @QtCore.Slot()
+    #@QtCore.Slot()
     def evalImplementation_thread(self):
         while self.reset:
             pass
@@ -149,9 +149,10 @@ class KsamplerIterNode(AiNode):
 
         return result, data
 
-    @QtCore.Slot(object)
+    #@QtCore.Slot(object)
     def onWorkerFinished(self, result):
-        super().onWorkerFinished(None)
+        self.busy = False
+        #super().onWorkerFinished(None)
         print(result[1])
         self.setOutput(1, result[1])
         self.getInput(0)

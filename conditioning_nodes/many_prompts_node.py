@@ -71,7 +71,7 @@ class ManyPromptsNode(AiNode):
 		self.stop_top_iterator = False
 		self.reset = False
 
-	@QtCore.Slot(str)
+	#@QtCore.Slot(str)
 	def set_actual_value(self, value):
 		self.content.actual_iteration_value.setText(value)
 
@@ -82,7 +82,7 @@ class ManyPromptsNode(AiNode):
 
 
 
-	@QtCore.Slot()
+	#@QtCore.Slot()
 	def evalImplementation_thread(self):
 		while self.reset:
 			pass
@@ -142,9 +142,10 @@ class ManyPromptsNode(AiNode):
 
 		return result, data
 
-	@QtCore.Slot(object)
+	#@QtCore.Slot(object)
 	def onWorkerFinished(self, result):
-		super().onWorkerFinished(None)
+		self.busy = False
+		#super().onWorkerFinished(None)
 		self.setOutput(1, result[1])
 		self.getInput(0)
 
