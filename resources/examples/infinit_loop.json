@@ -1,0 +1,694 @@
+{
+    "id": 2816634600944,
+    "scene_width": 64000,
+    "scene_height": 64000,
+    "nodes": [
+        {
+            "id": 2816634600656,
+            "title": "Torch Loader",
+            "pos_x": -1200.0,
+            "pos_y": 247.7499999999996,
+            "inputs": [
+                {
+                    "id": 2816669991168,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669991504,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Models": "v1-5-pruned-emaonly.ckpt",
+                "Configs": "v1-inference_fp16.yaml",
+                "Vae": "default",
+                "Force Reload": "False"
+            },
+            "op_code": 30,
+            "content_label_objname": "torch_loader_node"
+        },
+        {
+            "id": 2816669992224,
+            "title": "Iterator Loop Counter Node",
+            "pos_x": 1905.4687499999982,
+            "pos_y": 809.2382812499998,
+            "inputs": [
+                {
+                    "id": 2816669993184,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669992080,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669991360,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669993424,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 54,
+            "content_label_objname": "loop_iterators_node"
+        },
+        {
+            "id": 2816669992032,
+            "title": "Conditioning",
+            "pos_x": 845.9531250000009,
+            "pos_y": 351.6249999999996,
+            "inputs": [
+                {
+                    "id": 2816669991216,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669993472,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669992992,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669993520,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2816669994192,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": ""
+            },
+            "op_code": 17,
+            "content_label_objname": "cond_node"
+        },
+        {
+            "id": 2816669991648,
+            "title": "K Sampler",
+            "pos_x": 1284.484375000001,
+            "pos_y": 2.4375,
+            "inputs": [
+                {
+                    "id": 2816669991408,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669991936,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 2
+                },
+                {
+                    "id": 2816669991744,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2816669991984,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2816669991792,
+                    "index": 4,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669990976,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2816669991888,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 2
+                },
+                {
+                    "id": 2816669993280,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Scheduler:": "karras",
+                "Sampler:": "euler",
+                "Seed:": "",
+                "Steps:": 10,
+                "Start Step:": 0,
+                "Last Step:": 5,
+                "Stop Sampling Early": "False",
+                "Force full denoise": "True",
+                "Disable noise generation": "False",
+                "Iterate seed": "False",
+                "Denoise:": 1.0,
+                "Guidance Scale:": 7.5
+            },
+            "op_code": 23,
+            "content_label_objname": "K_sampling_node"
+        },
+        {
+            "id": 2816669993904,
+            "title": "Many Prompts Node",
+            "pos_x": -148.12499999999955,
+            "pos_y": 101.1640624999996,
+            "inputs": [
+                {
+                    "id": 2816669994336,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669994384,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669994432,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669994480,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669994528,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669994576,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669994624,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": "cyberpunk train\npsychedelic mushroom city",
+                "Actual Prompt": "psychedelic mushroom city"
+            },
+            "op_code": 55,
+            "content_label_objname": "many_prompts_node"
+        },
+        {
+            "id": 2816669994000,
+            "title": "Execute",
+            "pos_x": -1157.671875,
+            "pos_y": 11.59375,
+            "inputs": [
+                {
+                    "id": 2816669994096,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669992272,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 5,
+            "content_label_objname": "exec_node"
+        },
+        {
+            "id": 2816669994288,
+            "title": "Many Prompts Node",
+            "pos_x": -647.203125,
+            "pos_y": -7.2109375,
+            "inputs": [
+                {
+                    "id": 2816669993760,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669993952,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669991456,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669992416,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669993616,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669993664,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669991072,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": "abstract illustration of a \nexpressionist painting of a ",
+                "Actual Prompt": "expressionist painting of a "
+            },
+            "op_code": 55,
+            "content_label_objname": "many_prompts_node"
+        },
+        {
+            "id": 2816669992128,
+            "title": "Reset Iterators Node",
+            "pos_x": -1148.59375,
+            "pos_y": 485.6562499999996,
+            "inputs": [
+                {
+                    "id": 2816669994816,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669994864,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 56,
+            "content_label_objname": "reset_iterators_node"
+        },
+        {
+            "id": 2816669994768,
+            "title": "Many Prompts Node",
+            "pos_x": 302.89062500000034,
+            "pos_y": 370.6953124999996,
+            "inputs": [
+                {
+                    "id": 2816669995392,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669995440,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669995488,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669995536,
+                    "index": 3,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669995584,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                },
+                {
+                    "id": 2816669995632,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669995680,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": ", trending on artstation\n, by da vinci\n, by van gogh",
+                "Actual Prompt": ", by van gogh"
+            },
+            "op_code": 55,
+            "content_label_objname": "many_prompts_node"
+        },
+        {
+            "id": 2816669994912,
+            "title": "Image Preview",
+            "pos_x": 1670.203125000001,
+            "pos_y": -35.0,
+            "inputs": [
+                {
+                    "id": 2816669995824,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2816669996160,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669996208,
+                    "index": 2,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669996256,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 5
+                },
+                {
+                    "id": 2816669996304,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669996352,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {},
+            "op_code": 12,
+            "content_label_objname": "image_output_node"
+        },
+        {
+            "id": 2816669996112,
+            "title": "Conditioning",
+            "pos_x": 845.5312500000009,
+            "pos_y": -2.140625,
+            "inputs": [
+                {
+                    "id": 2816669996496,
+                    "index": 0,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669995968,
+                    "index": 1,
+                    "multi_edges": false,
+                    "position": 3,
+                    "socket_type": 1
+                }
+            ],
+            "outputs": [
+                {
+                    "id": 2816669995920,
+                    "index": 0,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 6
+                },
+                {
+                    "id": 2816669995872,
+                    "index": 1,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 3
+                },
+                {
+                    "id": 2816669995728,
+                    "index": 2,
+                    "multi_edges": true,
+                    "position": 6,
+                    "socket_type": 1
+                }
+            ],
+            "content": {
+                "Prompt": ""
+            },
+            "op_code": 17,
+            "content_label_objname": "cond_node"
+        }
+    ],
+    "edges": [
+        {
+            "id": 2816669996016,
+            "edge_type": 2,
+            "start": 2816669990976,
+            "end": 2816669995824
+        },
+        {
+            "id": 2816669995248,
+            "edge_type": 2,
+            "start": 2816669994864,
+            "end": 2816669992416
+        },
+        {
+            "id": 2816669995200,
+            "edge_type": 2,
+            "start": 2816669993280,
+            "end": 2816669996208
+        },
+        {
+            "id": 2816669995152,
+            "edge_type": 2,
+            "start": 2816669995632,
+            "end": 2816669996496
+        },
+        {
+            "id": 2816669994672,
+            "edge_type": 2,
+            "start": 2816669995680,
+            "end": 2816669995968
+        },
+        {
+            "id": 2816669991264,
+            "edge_type": 2,
+            "start": 2816669995632,
+            "end": 2816669993184
+        },
+        {
+            "id": 2816669993376,
+            "edge_type": 2,
+            "start": 2816669993520,
+            "end": 2816669991744
+        },
+        {
+            "id": 2816669994048,
+            "edge_type": 2,
+            "start": 2816669995584,
+            "end": 2816669994336
+        },
+        {
+            "id": 2816669996736,
+            "edge_type": 2,
+            "start": 2816669992272,
+            "end": 2816669991168
+        },
+        {
+            "id": 2816669996880,
+            "edge_type": 2,
+            "start": 2816669991360,
+            "end": 2816669994096
+        },
+        {
+            "id": 2816669997024,
+            "edge_type": 2,
+            "start": 2816669994576,
+            "end": 2816669995488
+        },
+        {
+            "id": 2816669997168,
+            "edge_type": 2,
+            "start": 2816669995872,
+            "end": 2816669991984
+        },
+        {
+            "id": 2816669997312,
+            "edge_type": 2,
+            "start": 2816669994528,
+            "end": 2816669993760
+        },
+        {
+            "id": 2816669997456,
+            "edge_type": 2,
+            "start": 2816669995728,
+            "end": 2816669993472
+        },
+        {
+            "id": 2816669997600,
+            "edge_type": 2,
+            "start": 2816669996352,
+            "end": 2816669992080
+        },
+        {
+            "id": 2816669997744,
+            "edge_type": 2,
+            "start": 2816669991504,
+            "end": 2816669994816
+        },
+        {
+            "id": 2816669997888,
+            "edge_type": 2,
+            "start": 2816669991072,
+            "end": 2816669994480
+        },
+        {
+            "id": 2816669998032,
+            "edge_type": 2,
+            "start": 2816669993664,
+            "end": 2816669994432
+        },
+        {
+            "id": 2816669998176,
+            "edge_type": 2,
+            "start": 2816669994624,
+            "end": 2816669995536
+        },
+        {
+            "id": 2816669998320,
+            "edge_type": 2,
+            "start": 2816669994192,
+            "end": 2816669991792
+        },
+        {
+            "id": 2816669998464,
+            "edge_type": 2,
+            "start": 2816669993424,
+            "end": 2816669995440
+        }
+    ]
+}

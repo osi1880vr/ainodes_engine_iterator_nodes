@@ -15,13 +15,12 @@ OP_NODE_LOOP_ITERATORS = get_next_opcode()
 
 
 class LoopIteratorsWidget(QDMNodeContentWidget):
-	set_checked_signal = QtCore.Signal()
 	def initUI(self):
 		self.create_widgets()
 		self.create_main_layout()
 
 	def create_widgets(self):
-		self.checkbox = self.create_check_box("Kepp looping")
+		self.checkbox = self.create_check_box("Kepp looping", checked=True)
 
 @register_node(OP_NODE_LOOP_ITERATORS)
 class LoopIteratorsNode(AiNode):
@@ -45,8 +44,6 @@ class LoopIteratorsNode(AiNode):
 		self.content.setMinimumHeight(80)
 		self.content.eval_signal.connect(self.evalImplementation)
 		self.counter = 0
-		self.content.set_checked_signal.connect(self.set_checked)
-		self.content.set_checked_signal.emit()
 		self.reset_signal = 'reset_iterator'
 		dispatcher.connect(self.reset_handler, signal=self.reset_signal)
 
