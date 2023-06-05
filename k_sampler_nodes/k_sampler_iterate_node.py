@@ -17,7 +17,7 @@ Also change the names of the Widget and Node classes, as well as it's content_la
 it will be used when saving the graphs.
 """
 
-OP_NODE_K_SAMPLER = get_next_opcode()
+OP_NODE_K_SAMPLER_ITERATOR = get_next_opcode()
 
 
 class KsamplerIterWidget(QDMNodeContentWidget):
@@ -33,10 +33,10 @@ class KsamplerIterWidget(QDMNodeContentWidget):
         self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
-@register_node(OP_NODE_K_SAMPLER)
+@register_node(OP_NODE_K_SAMPLER_ITERATOR)
 class KsamplerIterNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/in.png"
-    op_code = OP_NODE_K_SAMPLER
+    icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
+    op_code = OP_NODE_K_SAMPLER_ITERATOR
     op_title = "K-Sampler Iterator Node"
     content_label_objname = "k_sampler_iterate_node"
     category = "Iterators"

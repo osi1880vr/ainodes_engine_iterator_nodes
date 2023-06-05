@@ -24,7 +24,7 @@ class LoopIteratorsWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_LOOP_ITERATORS)
 class LoopIteratorsNode(AiNode):
-	icon = "ainodes_frontend/icons/base_nodes/in.png"
+	icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
 	op_code = OP_NODE_LOOP_ITERATORS
 	op_title = "Iterator Loop Counter Node"
 	content_label_objname = "loop_iterators_node"

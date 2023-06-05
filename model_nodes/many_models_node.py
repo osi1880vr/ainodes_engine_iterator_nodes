@@ -66,7 +66,7 @@ class ManyModelsWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_MANY_MODELS)
 class ManyModelsNode(AiNode):
-    icon = "ainodes_frontend/icons/base_nodes/in.png"
+    icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
     op_code = OP_NODE_MANY_MODELS
     op_title = "Many Models Node"
     content_label_objname = "many_models_node"

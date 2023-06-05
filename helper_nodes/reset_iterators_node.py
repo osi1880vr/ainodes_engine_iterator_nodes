@@ -26,7 +26,7 @@ class ResetIteratorsWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_RESET_ITERATORS)
 class ResetIteratorsNode(AiNode):
-	icon = "ainodes_frontend/icons/base_nodes/in.png"
+	icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
 	op_code = OP_NODE_RESET_ITERATORS
 	op_title = "Reset Iterators Node"
 	content_label_objname = "reset_iterators_node"

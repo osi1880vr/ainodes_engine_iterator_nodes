@@ -17,7 +17,7 @@ Also change the names of the Widget and Node classes, as well as it's content_la
 it will be used when saving the graphs.
 """
 
-OP_NODE_MANY_STEPS = get_next_opcode()
+OP_NODE_MANY_CFG = get_next_opcode()
 
 
 class ManyCfgWidget(QDMNodeContentWidget):
@@ -31,10 +31,10 @@ class ManyCfgWidget(QDMNodeContentWidget):
 		self.actual_iteration_value = self.create_line_edit("Actual Value")
 
 
-@register_node(OP_NODE_MANY_STEPS)
+@register_node(OP_NODE_MANY_CFG)
 class ManyStepssNode(AiNode):
-	icon = "ainodes_frontend/icons/base_nodes/in.png"
-	op_code = OP_NODE_MANY_STEPS
+	icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
+	op_code = OP_NODE_MANY_CFG
 	op_title = "Many CFG Node"
 	content_label_objname = "many_cfg_node"
 	category = "Iterators"

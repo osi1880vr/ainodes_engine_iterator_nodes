@@ -33,7 +33,7 @@ class ManyStepsWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_MANY_STEPS)
 class ManyStepsNode(AiNode):
-	icon = "ainodes_frontend/icons/base_nodes/in.png"
+	icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
 	op_code = OP_NODE_MANY_STEPS
 	op_title = "Many Steps Node"
 	content_label_objname = "many_steps_node"

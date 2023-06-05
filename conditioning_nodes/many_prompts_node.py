@@ -33,7 +33,7 @@ class ManyPromptsWidget(QDMNodeContentWidget):
 
 @register_node(OP_NODE_MANY_PROMPTS)
 class ManyPromptsNode(AiNode):
-	icon = "ainodes_frontend/icons/base_nodes/in.png"
+	icon = "ainodes_frontend/icons/base_nodes/v2/loops.png"
 	op_code = OP_NODE_MANY_PROMPTS
 	op_title = "Many Prompts Node"
 	content_label_objname = "many_prompts_node"
